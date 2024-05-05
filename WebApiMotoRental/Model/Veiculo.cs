@@ -1,14 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApiMotoRental.Model
 {
+    [Index(nameof(Placa), IsUnique = true)]
     public class Veiculo
     {
         [Required]
         [Key]
         public int Id { get; set; }
 
-       // [Index(IsUnique = true)]
+        [Required]
         public string Placa { get; set; } = string.Empty;
 
         public string Ano { get; set; } = string.Empty;
