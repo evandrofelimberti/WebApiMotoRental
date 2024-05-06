@@ -16,16 +16,20 @@ namespace WebApiMotoRental.Model
         [Required]
         public string Numero { get; set; } = string.Empty;
 
+        public DateTime DataEmissao { get; set; }
+
         public byte ImagemDocumento { get; set; }
 
         [Required]
         public eTipoPessoaDocumento Tipo { get; set; } = eTipoPessoaDocumento.tpdNenhum;
 
         [ForeignKey("PessoaId")]
-        public Pessoa Pessoa { get; set; }
+        [JsonIgnore]
+        public Pessoa Pessoa { get; set; } = null!;
         public int PessoaId { get; set; }
 
-        public PessoaDocumentoCNH PessoaDocumentoCNH { get; set; }
+        [JsonIgnore]
+        public PessoaDocumentoCNH PessoaDocumentoCNH { get; set; } = null!;
 
 
     }
@@ -36,12 +40,17 @@ namespace WebApiMotoRental.Model
         [Required]
         public int Id { get; set; }
 
-        [Required]
         [ForeignKey("PessoaDocumentoId")]
-        public PessoaDocumento PessoaDocumento { get; set; }
+        [JsonIgnore]
+        public PessoaDocumento PessoaDocumento { get; set; } = null!;
         public int PessoaDocumentoId { get; set; }
 
+        public DateTime DataVencimento { get; set; }
+
+        public DateTime PrimeiraHabilitacao { get; set; }
+
         [Required]
+        [JsonIgnore]
         public ICollection<PessoaDocumentoTipoCNH> PessoaDocumentoTipoCNH { get; set; } = new List<PessoaDocumentoTipoCNH>();
     }
 
@@ -51,9 +60,9 @@ namespace WebApiMotoRental.Model
         [Required]
         public int Id { get; set; }
 
-        [Required]
         [ForeignKey("PessoaDocumentoCNHId")]
-        public PessoaDocumentoCNH PessoaDocumentoCNH { get; set; }
+        [JsonIgnore]
+        public PessoaDocumentoCNH PessoaDocumentoCNH { get; set; } = null!;
         public int PessoaDocumentoCNHId { get; set; }
 
         public eTipoCNH TipoCNH { get; set; } = eTipoCNH.tcnhNenhum;

@@ -5,16 +5,16 @@ namespace WebApiMotoRental.Data
 {
     public class DataContext: DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options): base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
         }
 
-        public DbSet<Usuario> Unidade { get; set; }
-        public DbSet<Pessoa> Pessoa { get; set; }
-        public DbSet<PessoaDocumento> PessoaDocumento { get; set; }
-        public DbSet<PessoaDocumentoCNH> PessoaDocumentoCNH { get; set; }
-        public DbSet<PessoaDocumentoTipoCNH> PessoaDocumentoTipoCNH { get; set; }
+        public DbSet<Usuario> Usuario { get; set; } = null!;
+        public DbSet<Pessoa> Pessoa { get; set; } = null!;
+        public DbSet<PessoaDocumento> PessoaDocumento { get; set; } = null!;
+        public DbSet<PessoaDocumentoCNH> PessoaDocumentoCNH { get; set; } = null!;
+        public DbSet<PessoaDocumentoTipoCNH> PessoaDocumentoTipoCNH { get; set; } = null!;
 
     }
 }
