@@ -4,7 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System.Text;
+using WebApiMotoRental.Controllers;
 using WebApiMotoRental.Data;
+using WebApiMotoRental.Interfaces;
+using WebApiMotoRental.Model;
+using WebApiMotoRental.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,7 @@ AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<DataContext, DataContext>();
+builder.Services.AddTransient<PessoaServiceImpl, PessoaService>();
 /*builder.Services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 builder.Services.AddTransient<IUnidadeService, UnidadeService>();
 builder.Services.AddTransient<IProdutoService, ProdutoService>();

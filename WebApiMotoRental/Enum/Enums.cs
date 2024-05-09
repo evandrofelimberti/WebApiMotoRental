@@ -31,4 +31,13 @@
     Categoria B – Carros, picapes e vans. ...
     Categoria C – Caminhões, caminhonetes e vans de Carga. ...
     Categoria D – Ônibus, micro-ônibus, vans de passageiros.*/
+
+    public enum ValidacaoPessoaResultado
+    {
+        Default = 0,
+        NumeroDocumentoCadastrado = 1,
+        TipoDocumentoNaoInformado = 2,
+        NomePessoaInvalido = 4,
+        Ok = 8
+    }
 }
