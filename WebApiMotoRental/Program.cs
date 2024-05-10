@@ -26,6 +26,7 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<DataContext, DataContext>();
 builder.Services.AddTransient<PessoaServiceImpl, PessoaService>();
+builder.Services.AddTransient<VeiculoServiceImpl, VeiculoService>();
 /*builder.Services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 builder.Services.AddTransient<IUnidadeService, UnidadeService>();
 builder.Services.AddTransient<IProdutoService, ProdutoService>();
