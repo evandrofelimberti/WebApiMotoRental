@@ -11,7 +11,7 @@ namespace WebApiMotoRental.Services
 {
     public class VeiculoService : VeiculoServiceImpl
     {
-        private const string QUEUE_NAME = "messagens";
+        private const string QUEUE_NAME = "cadastrar_veiculo";
 
         protected DataContext _dataContext;
 
@@ -23,9 +23,12 @@ namespace WebApiMotoRental.Services
         public void CadastrarVeiculo(VeiculoDTO veiculoDTO)
         {
 
-            var factory = new ConnectionFactory()
+            var factory = new ConnectionFactory
             {
-                HostName = "localhost"
+                HostName = "localhost",
+                Port = 5672,
+                UserName = "guest",
+                Password = "guest"
             };
 
             using var connection = factory.CreateConnection();
@@ -36,6 +39,7 @@ namespace WebApiMotoRental.Services
                                     exclusive: false,
                                     autoDelete: false,
                                     arguments: null);
+
             var stringFieldMessage = JsonConvert.SerializeObject(veiculoDTO);
             var bytesMessage = Encoding.UTF8.GetBytes(stringFieldMessage);
 
