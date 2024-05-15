@@ -27,17 +27,6 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddScoped<DataContext, DataContext>();
 builder.Services.AddTransient<PessoaServiceImpl, PessoaService>();
 builder.Services.AddTransient<VeiculoServiceImpl, VeiculoService>();
-/*builder.Services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-builder.Services.AddTransient<IUnidadeService, UnidadeService>();
-builder.Services.AddTransient<IProdutoService, ProdutoService>();
-builder.Services.AddTransient<ITipoProdutoService, TipoProdutoService>();
-builder.Services.AddTransient<ITipoMovimentoService, TipoMovimentoService>();
-builder.Services.AddTransient<IMovimentoService, MovimentoService>();
-builder.Services.AddTransient<IMovimentoItemService, MovimentoItemService>();
-builder.Services.AddTransient<ILavouraService, LavouraService>();
-builder.Services.AddTransient<ISafraService, SafraService>();
-builder.Services.AddTransient<IUsuarioService, UsuarioService>();*/
-
 
 builder.Services.AddCors(c =>
 {
@@ -57,6 +46,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<JsonOptions>(o =>
 {
     o.JsonSerializerOptions.WriteIndented = true;
+
 });
 
 
@@ -94,7 +84,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

@@ -22,7 +22,7 @@ namespace WebApiMotoRental.Services
 
         public Pessoa GetById(int id)
         {
-            Pessoa pessoa = _dataContext.Pessoa.Find(id);
+            var pessoa = _dataContext.Pessoa.Find(id);
             if (pessoa == null)
                 throw new Exception("Pessoa não localizada!!!");
 
@@ -64,8 +64,8 @@ namespace WebApiMotoRental.Services
                 result |= (ValidacaoPessoaResultado.NumeroDocumentoCadastrado);
             }
 
-            if(! result.HasFlag(ValidacaoPessoaResultado.NumeroDocumentoCadastrado) ||
-                result.HasFlag(ValidacaoPessoaResultado.TipoDocumentoNaoInformado))
+            if(!result.HasFlag(ValidacaoPessoaResultado.NumeroDocumentoCadastrado) ||
+               !result.HasFlag(ValidacaoPessoaResultado.TipoDocumentoNaoInformado))
             {
                 result |= ValidacaoPessoaResultado.Ok;
             }

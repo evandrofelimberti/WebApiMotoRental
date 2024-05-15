@@ -40,4 +40,15 @@
         NomePessoaInvalido = 4,
         Ok = 8
     }
+
+    public enum ValidacaoLocacaoResultado
+    {
+        Default = 0,
+        DataInicioNaoInformada = 1,
+        DataTerminoNaoInformada = 2,
+        DataPrevisaoTerminoNaoInformada = 4,
+        InicioLocacaoPrimeiroDiaAposInclusao = 8,
+        EntregadorNaohabilitadoCategoriaA = 16,
+        Ok = 32
+    }
 }

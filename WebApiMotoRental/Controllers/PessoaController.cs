@@ -62,8 +62,6 @@ namespace WebApiMotoRental.Controllers
                 Pessoa pessoa = new Pessoa();
                 pessoa.FromPessoaDTO(pessoaDTO);
 
-
-
                 _Context.Pessoa.Add(pessoa);
                 await _Context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Post), new { id = pessoa.Id }, pessoa);

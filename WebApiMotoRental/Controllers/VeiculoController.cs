@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApiMotoRental.Data;
 using WebApiMotoRental.DTO;
 using WebApiMotoRental.Model;
@@ -20,32 +22,63 @@ namespace WebApiMotoRental.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<Veiculo>>> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            return await _Context.Veiculo.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Veiculo> Get(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<Veiculo>> GetByPlaca(string placa)
         {
-            return _Context.Veiculo.Find(id);
+            if (string.IsNullOrEmpty(placa)) return NotFound();
+
+            var veiculo = await _Context.Veiculo.Where(v => v.Placa == placa).FirstOrDefaultAsync();
+            if (veiculo == null)
+            {
+                return NotFound();
+            }
+
+            return veiculo;
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public void Post(VeiculoDTO veiculoDTO)
         {
             VeiculoService veiculoService = new VeiculoService(_Context);
             veiculoService.CadastrarVeiculo(veiculoDTO);
         }
 
+
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PutPlaca(int id, string placa)
         {
+            // Validar se existe locação com esse veiculo, caso existir não permitir alterar a placa.
+            var veiculo = await _Context.Veiculo.FindAsync(id);
+            if (veiculo == null ||  string.IsNullOrEmpty(placa))
+            {
+                return NotFound();
+            }
+            veiculo.Placa = placa;
+
+            _Context.Entry(veiculo).State = EntityState.Modified;
+            await _Context.SaveChangesAsync();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public void Delete(int id)
         {
+            Veiculo veiculo = _Context.Veiculo.Where(v => v.Id == id).First();
+            if (veiculo != null)
+            {
+                _Context.Veiculo.Remove(veiculo);
+                _Context.SaveChangesAsync();
+            }                     
         }
     }
 }

@@ -16,6 +16,8 @@ namespace WebApiMotoRental.Data
         public DbSet<PessoaDocumento> PessoaDocumento { get; set; } = null!;
         public DbSet<PessoaDocumentoCNH> PessoaDocumentoCNH { get; set; } = null!;
         public DbSet<PessoaDocumentoTipoCNH> PessoaDocumentoTipoCNH { get; set; } = null!;
+        public DbSet<Locacao> Locacao { get; set; } = null!;
+        public DbSet<PlanoLocacao> PlanoLocacao { get; set; } = null!;
 
     }
 }
