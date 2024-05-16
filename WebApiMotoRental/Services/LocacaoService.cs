@@ -21,8 +21,14 @@ namespace WebApiMotoRental.Services
             var resultValidacao = ValidarLocacao(locacaoDTO);
             if ((resultValidacao & ValidacaoLocacaoResultado.Ok) == ValidacaoLocacaoResultado.Ok)
             {
+                LocacaoCalculoFactory locacaoCalculoFactory = new LocacaoCalculoFactory();
+                var locacaoCalculo = locacaoCalculoFactory.CreateLocacaoCalculo(LocacaoCalculoTipo.Default);
+                locacaoDTO.ValorTotalAluguel = locacaoCalculo.CalcularValor();
+                locacaoDTO.QuantidadeDiasAluguel = locacaoCalculo.CalcularDiasLocado();
+
                 Locacao locacao = new Locacao();
                 locacao.FromLocacaoDTO(locacaoDTO);
+
                 _dataContext.Locacao.Add(locacao);
                 _dataContext.SaveChanges();
             }

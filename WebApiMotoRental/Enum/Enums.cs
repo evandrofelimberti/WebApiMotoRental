@@ -51,4 +51,12 @@
         EntregadorNaohabilitadoCategoriaA = 16,
         Ok = 32
     }
+
+    public enum LocacaoCalculoTipo
+    {
+        Default,
+        PeriodoExatoTermino,
+        PeriodoInferiorTermino,
+        PeriodoSuperiorTermino
+    }
 }
