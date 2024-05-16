@@ -1,4 +1,5 @@
-﻿using WebApiMotoRental.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiMotoRental.Data;
 using WebApiMotoRental.DTO;
 using WebApiMotoRental.Enum;
 using WebApiMotoRental.Interfaces;
@@ -25,6 +26,17 @@ namespace WebApiMotoRental.Services
                 _dataContext.Locacao.Add(locacao);
                 _dataContext.SaveChanges();
             }
+        }
+
+        private bool PessoaPossuiDocumentoCategoriaA(int pessoaId)
+        {
+            var possuiDocumentoTipoA = _dataContext.Pessoa
+                .Where(p => p.Id == pessoaId)
+                .Include(d => d.PessoaDocumento)
+                .ThenInclude(c => c.PessoaDocumentoCNH)
+                .ThenInclude(t => t.PessoaDocumentoTipoCNH.Where(ta => ta.TipoCNH == eTipoCNH.tcnhA));
+
+            return (possuiDocumentoTipoA.Count() > 0);
         }
 
         public ValidacaoLocacaoResultado ValidarLocacao(LocacaoDTO locacaoDTO)
@@ -54,6 +66,10 @@ namespace WebApiMotoRental.Services
             if (!(locacaoDTO.DataInclusao.AddDays(1) == locacaoDTO.DataInicio))
             {
                 result |= ValidacaoLocacaoResultado.InicioLocacaoPrimeiroDiaAposInclusao;
+            }
+            if (!PessoaPossuiDocumentoCategoriaA(locacaoDTO.PessoaId))
+            {
+                result |= ValidacaoLocacaoResultado.EntregadorNaohabilitadoCategoriaA;
             }
 
             if (!result.HasFlag(ValidacaoLocacaoResultado.InicioLocacaoPrimeiroDiaAposInclusao) ||

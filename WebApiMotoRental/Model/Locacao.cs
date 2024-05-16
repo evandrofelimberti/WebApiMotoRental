@@ -15,6 +15,11 @@ namespace WebApiMotoRental.Model
         public DateTime DataPrevisaoTermino { get; set; }
         public DateTime DataTermino { get; set; }
 
+        [ForeignKey("PessoaId")]
+        public int PessoaId { get; set; }
+
+        public Pessoa Pessoa { get; set; } = null!;
+
         [ForeignKey("PlanoLocacaoId")]
         public int PlanoLocacaoId { get; set; }
 
@@ -27,6 +32,7 @@ namespace WebApiMotoRental.Model
         {
             this.Id = locacaoDTO.Id;
             this.Descricao = locacaoDTO.Descricao;
+            this.PessoaId = locacaoDTO.PessoaId;
             this.DataInclusao = locacaoDTO.DataInclusao;    
             this.DataInicio = locacaoDTO.DataInicio;
             this.DataPrevisaoTermino = locacaoDTO.DataPrevisaoTermino;
@@ -45,6 +51,7 @@ namespace WebApiMotoRental.Model
         public string Descricao { get; set; } = string.Empty;
         public int QuantidadeDias { get; set; }
         public Double ValorDia { get; set; } = 0.0; 
+        public Double PercentualMulta { get; set; } = 0.0;
 
     }
 
