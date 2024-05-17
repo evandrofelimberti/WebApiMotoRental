@@ -27,6 +27,8 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddScoped<DataContext, DataContext>();
 builder.Services.AddTransient<PessoaServiceImpl, PessoaService>();
 builder.Services.AddTransient<VeiculoServiceImpl, VeiculoService>();
+builder.Services.AddTransient<LocacaoServiceImpl, LocacaoService>();
+builder.Services.AddTransient<UsuarioService>();
 
 builder.Services.AddCors(c =>
 {

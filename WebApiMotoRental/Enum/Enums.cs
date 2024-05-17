@@ -49,7 +49,8 @@
         DataPrevisaoTerminoNaoInformada = 4,
         InicioLocacaoPrimeiroDiaAposInclusao = 8,
         EntregadorNaohabilitadoCategoriaA = 16,
-        Ok = 32
+        NumeroDiasForadoPlanoDisponivel = 32,
+        Ok = 64
     }
 
     public enum LocacaoCalculoTipo
@@ -59,4 +60,5 @@
         PeriodoInferiorTermino,
         PeriodoSuperiorTermino
     }
+
 }

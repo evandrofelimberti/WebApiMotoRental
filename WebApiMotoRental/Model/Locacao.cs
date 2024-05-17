@@ -30,7 +30,7 @@ namespace WebApiMotoRental.Model
 
         public void FromLocacaoDTO(LocacaoDTO locacaoDTO)
         {
-            this.Id = locacaoDTO.Id;
+            //this.Id = locacaoDTO.Id;
             this.Descricao = locacaoDTO.Descricao;
             this.PessoaId = locacaoDTO.PessoaId;
             this.DataInclusao = locacaoDTO.DataInclusao;    

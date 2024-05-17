@@ -41,7 +41,7 @@ namespace WebApiMotoRental.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Entregador")]
+        //[Authorize(Roles = "Admin,Entregador")]
         public void Post(LocacaoDTO locacaoDTO)
         {
             LocacaoService locacaoService = new LocacaoService(_Context);
@@ -51,19 +51,12 @@ namespace WebApiMotoRental.Controllers
 
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Entregador")]
-        public async Task<IActionResult> Put(int id, LocacaoDTO locacaoDTO)
+       // [Authorize(Roles = "Admin,Entregador")]
+        public void DevolverVeiculo(int id, LocacaoDTO locacaoDTO)
         {            
-            var locacao = await _Context.Locacao.FindAsync(id);
-            if (locacao == null)
-            {
-                return NotFound();
-            }
-            locacao.FromLocacaoDTO(locacaoDTO);
+            LocacaoService locacaoService = new LocacaoService(_Context);
+            locacaoService.DevolverVeiculo(id, locacaoDTO);
 
-            _Context.Entry(locacao).State = EntityState.Modified;
-            await _Context.SaveChangesAsync();
-            return NoContent();
         }
 
         [HttpDelete("{id}")]

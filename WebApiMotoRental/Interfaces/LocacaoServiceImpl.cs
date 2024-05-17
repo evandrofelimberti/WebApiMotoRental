@@ -8,5 +8,6 @@ namespace WebApiMotoRental.Interfaces
         ValidacaoLocacaoResultado ValidarLocacao(LocacaoDTO locacaoDTO);
 
         void CadastrarLocacao(LocacaoDTO locacaoDTO);
+        void DevolverVeiculo(int id, LocacaoDTO locacaoDTO);
     }
 }
