@@ -24,8 +24,10 @@ namespace WebApiMotoRental.Services
             {
                 Locacao locacao = new Locacao();
                 locacao.FromLocacaoDTO(locacaoDTO);
-                locacao.PlanoLocacao = _dataContext.PlanoLocacao.Where(p => p.Id == locacaoDTO.PlanoLocacaoId).FirstOrDefault();
+                var planoLocacao = _dataContext.PlanoLocacao.Where(p => p.Id == locacaoDTO.PlanoLocacaoId).FirstOrDefault();
+                if (planoLocacao == null) throw new Exception("Locação não encontrada!");
 
+                locacao.PlanoLocacao = planoLocacao;
                 _dataContext.Locacao.Add(locacao);
                 _dataContext.SaveChanges();
             }
@@ -40,7 +42,10 @@ namespace WebApiMotoRental.Services
                 if (locacao == null) throw new ArgumentNullException("Locação inválida!!!");
 
                 locacao.FromLocacaoDTO(locacaoDTO);
-                locacao.PlanoLocacao = _dataContext.PlanoLocacao.Where(p => p.Id == locacaoDTO.PlanoLocacaoId).FirstOrDefault();
+                var planoLocacao = _dataContext.PlanoLocacao.Where(p => p.Id == locacaoDTO.PlanoLocacaoId).FirstOrDefault();
+                if (planoLocacao == null) throw new Exception("Locação não encontrada!");
+
+                locacao.PlanoLocacao = planoLocacao;
 
                 var locacaoCalculoTipo = BuscarLocacaoCalculoTipo(locacaoDTO);
 

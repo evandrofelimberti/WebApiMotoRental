@@ -9,8 +9,8 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using WebApiMotoRental.DTO;
 using Newtonsoft.Json;
-using WebApiMotoRental.Data;
 using WebApiMotoRental.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace MotoRentalService
 {
@@ -19,21 +19,15 @@ namespace MotoRentalService
         private const string QUEUE_NAME = "cadastrar_veiculo";
         private readonly ILogger<VeiculoConsumer> _logger;
         private readonly int _intervaloMensagemWorkerAtivo;
-        //private readonly DataContext _context;
         private readonly VeiculoRepositoryImpl veiculoRepository;
 
-        public VeiculoConsumer(VeiculoRepositoryImpl veiculoRepository)
+        public VeiculoConsumer(ILogger<VeiculoConsumer> logger, VeiculoRepositoryImpl veiculoRepository)
         {
+            this._logger = logger;
             this.veiculoRepository = veiculoRepository;
+            _intervaloMensagemWorkerAtivo = 10000; // 10 segundos
         }
 
-        /* public VeiculoConsumer(ILogger<VeiculoConsumer> logger, 
-              IConfiguration configuration, DataContext context)
-          {
-              _logger = logger;
-              _intervaloMensagemWorkerAtivo = 10000; // 10 segundos
-              _context = context;
-          }*/
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -60,26 +54,16 @@ namespace MotoRentalService
 
             while (!stoppingToken.IsCancellationRequested)
             {
-               /* _logger.LogInformation(
-                    $"Worker ativo em: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");*/
-                await Task.Delay(10000, stoppingToken);
+                _logger.LogInformation(
+                    $"Worker ativo em: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                await Task.Delay(_intervaloMensagemWorkerAtivo, stoppingToken);
             }
         }
+
 
         public void GravarLog(VeiculoDTO veiculoDTO)
         {
             this.veiculoRepository.CadastrarVeiculo(veiculoDTO);
-
-           /* if (veiculoDTO.Placa.Any())
-            {
-                Veiculo veiculo = new Veiculo();
-                veiculo.FromVeiculoDto(veiculoDTO);
-
-                _context.Veiculo.Add(veiculo);
-                _context.SaveChangesAsync();
-                _logger.LogInformation($"Veiculo cadastrado! \n " +
-                    $"Placa: {veiculoDTO.Placa} \n Modelo {veiculoDTO.Modelo}");
-            }*/
         }
 
         private void consumer_received(
@@ -90,6 +74,16 @@ namespace MotoRentalService
             VeiculoDTO veiculoDTO = JsonConvert.DeserializeObject<VeiculoDTO>(contentString);
             if (veiculoDTO != null)
                 GravarLog(veiculoDTO);
+        }
+
+        public override Task StartAsync(CancellationToken cancellationToken)
+        {
+            return base.StartAsync(cancellationToken);
+        }
+
+        public override Task StopAsync(CancellationToken cancellationToken)
+        {
+            return base.StopAsync(cancellationToken);
         }
     }
 }
