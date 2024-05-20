@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiMotoRental.Data;
 using WebApiMotoRental.DTO;
 using WebApiMotoRental.Enum;
 using WebApiMotoRental.Model;
 using WebApiMotoRental.Services;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApiMotoRental.Controllers
 {
@@ -21,7 +20,6 @@ namespace WebApiMotoRental.Controllers
             _Context = context;
         }
 
-        // GET: api/<PessoaController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pessoa>>> Get()
         {
@@ -51,8 +49,8 @@ namespace WebApiMotoRental.Controllers
 
         }
 
-        // POST api/<PessoaController>
         [HttpPost]
+        [Authorize(Roles = "Admin,Entregador")]
         public async Task<IActionResult> Post(PessoaDTO pessoaDTO)
         {
             PessoaService pessoaService = new PessoaService(_Context);
@@ -69,8 +67,8 @@ namespace WebApiMotoRental.Controllers
             return BadRequest();         
         }
 
-        // PUT api/<PessoaController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Entregador")]
         public async Task<IActionResult> Put(int id, Pessoa pessoa)
         {
             if (pessoa.Id != id)
@@ -83,7 +81,6 @@ namespace WebApiMotoRental.Controllers
             return NoContent();
         }
 
-        // DELETE api/<PessoaController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -21,12 +21,14 @@ namespace WebApiMotoRental.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Entregador")]
         public async Task<ActionResult<IEnumerable<Locacao>>> GetAll()
         {
             return await _Context.Locacao.ToListAsync();
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Entregador")]
         public async Task<ActionResult<Locacao>> GetById(int id)
         {
             if (!(id > 0)) return NotFound();
@@ -41,7 +43,7 @@ namespace WebApiMotoRental.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin,Entregador")]
+        [Authorize(Roles = "Admin,Entregador")]
         public void Post(LocacaoDTO locacaoDTO)
         {
             LocacaoService locacaoService = new LocacaoService(_Context);
@@ -51,7 +53,7 @@ namespace WebApiMotoRental.Controllers
 
 
         [HttpPut("{id}")]
-       // [Authorize(Roles = "Admin,Entregador")]
+        [Authorize(Roles = "Admin,Entregador")]
         public void DevolverVeiculo(int id, LocacaoDTO locacaoDTO)
         {            
             LocacaoService locacaoService = new LocacaoService(_Context);
