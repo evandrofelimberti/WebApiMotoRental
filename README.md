@@ -1,6 +1,10 @@
 # WebApiMotoRental
 
-Este é um projeto de API REST para aluguel de motos.
+Este repositório contém uma API RESTful para um sistema de aluguel de motos
+
+O projeto consiste em uma API desenvolvida em C# utilizando .NET Core 
+
+Essa API permite a gestão de clientes, motos e aluguéis através de endpoints HTTP
 
 ## Funcionalidades
 
