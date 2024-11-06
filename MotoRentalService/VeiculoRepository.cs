@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebApiMotoRental.DTO;
 using WebApiMotoRental.Model;
 
@@ -18,13 +13,13 @@ namespace MotoRentalService
             _dbFactory = dbContextFactory;
         }
 
-        public void CadastrarVeiculo(VeiculoDTO veiculoDTO)
+        public void CadastrarVeiculo(VeiculoDTO veiculoDto)
         {
 
             using (var context = _dbFactory.CreateDbContext())
             {
                 Veiculo veiculo = new Veiculo();
-                veiculo.FromVeiculoDto(veiculoDTO);
+                veiculo.FromVeiculoDto(veiculoDto);
 
                 context.Veiculo.Add(veiculo);
                 context.SaveChangesAsync();

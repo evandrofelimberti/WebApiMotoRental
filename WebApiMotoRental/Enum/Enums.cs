@@ -32,6 +32,7 @@
     Categoria C – Caminhões, caminhonetes e vans de Carga. ...
     Categoria D – Ônibus, micro-ônibus, vans de passageiros.*/
 
+    [Flags]
     public enum ValidacaoPessoaResultado
     {
         Default = 0,
@@ -41,6 +42,7 @@
         Ok = 8
     }
 
+    [Flags]
     public enum ValidacaoLocacaoResultado
     {
         Default = 0,

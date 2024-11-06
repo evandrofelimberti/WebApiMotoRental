@@ -51,19 +51,19 @@ namespace WebApiMotoRental.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin,Entregador")]
-        public async Task<IActionResult> Post(PessoaDTO pessoaDTO)
+        public async Task<IActionResult> Post(PessoaDTO pessoaDto)
         {
             PessoaService pessoaService = new PessoaService(_Context);
-            var resultValidacao = pessoaService.ValidarCadastroPessoa(pessoaDTO);
+            var resultValidacao = pessoaService.ValidarCadastroPessoa(pessoaDto);
             if ((resultValidacao & ValidacaoPessoaResultado.Ok) == ValidacaoPessoaResultado.Ok)
             {
                 Pessoa pessoa = new Pessoa();
-                pessoa.FromPessoaDTO(pessoaDTO);
+                pessoa.FromPessoaDTO(pessoaDto);
 
                 _Context.Pessoa.Add(pessoa);
                 await _Context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Post), new { id = pessoa.Id }, pessoa);
-            }else
+            }
             return BadRequest();         
         }
 

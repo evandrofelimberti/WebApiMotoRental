@@ -9,6 +9,6 @@ namespace MotoRentalService
 {
     public interface VeiculoRepositoryImpl
     {
-        void CadastrarVeiculo(VeiculoDTO veiculoDTO);
+        void CadastrarVeiculo(VeiculoDTO veiculoDto);
     }
 }

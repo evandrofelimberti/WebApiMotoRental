@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiMotoRental.Data;
@@ -44,20 +43,20 @@ namespace WebApiMotoRental.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin,Entregador")]
-        public void Post(LocacaoDTO locacaoDTO)
+        public void Post(LocacaoDTO locacaoDto)
         {
             LocacaoService locacaoService = new LocacaoService(_Context);
-            locacaoService.CadastrarLocacao(locacaoDTO);
+            locacaoService.CadastrarLocacao(locacaoDto);
 
         }
 
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin,Entregador")]
-        public void DevolverVeiculo(int id, LocacaoDTO locacaoDTO)
+        public void DevolverVeiculo(int id, LocacaoDTO locacaoDto)
         {            
             LocacaoService locacaoService = new LocacaoService(_Context);
-            locacaoService.DevolverVeiculo(id, locacaoDTO);
+            locacaoService.DevolverVeiculo(id, locacaoDto);
 
         }
 
