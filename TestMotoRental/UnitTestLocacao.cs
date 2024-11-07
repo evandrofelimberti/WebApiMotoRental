@@ -1,12 +1,56 @@
+using System.Net;
+using Microsoft.AspNetCore.Mvc.Testing;
 using WebApiMotoRental.DTO;
 using WebApiMotoRental.Enum;
 using WebApiMotoRental.Factory;
 using WebApiMotoRental.Model;
+using Xunit;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
+using WebApiMotoRental.Data;
 
 namespace MotoRentalTest
 {
-    public class UnitTestLocacao
+    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
     {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.ConfigureServices(services =>
+            {
+                var descriptor = services.SingleOrDefault(
+                    d => d.ServiceType == typeof(DbContextOptions<DataContext>));
+
+                if (descriptor != null)
+                {
+                    services.Remove(descriptor);
+                }
+
+                services.AddDbContext<DataContext>(options =>
+                {
+                    options.UseInMemoryDatabase("TestDb");
+                });
+            });
+        }
+    }    
+    public class UnitTestLocacao: IClassFixture<CustomWebApplicationFactory<Program>>
+    {
+        private readonly CustomWebApplicationFactory<Program> _factory;
+        private readonly HttpClient _client;
+
+        public UnitTestLocacao(CustomWebApplicationFactory<Program> factory)
+        {
+            _factory = factory;
+            _client = _factory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false
+            });
+        }
+
         [Fact]
         public void TestLocacaoCalculoPeriodoExato()
         {
@@ -86,5 +130,26 @@ namespace MotoRentalTest
 
             Assert.Equal(valorAlugel, valorAluguelDiasExato);
         }
+
+        [Fact]
+        public async Task CriarVeiculoPostTest()
+        {
+            //Arrange
+            var veiculo = new VeiculoDTO()
+            {
+                Ano = "2020",
+                Id = 1,
+                Modelo = "Gol",
+                Placa = "MKO9865"
+            };
+
+            // Act    
+            var response = await _client.PostAsJsonAsync("api/Veiculo", veiculo);
+            
+            //Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        }
     }
+
 }
